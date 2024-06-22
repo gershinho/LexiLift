@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1f1f1f; /* Dark grey background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #ccc; /* Light grey for labels */
+        }
+
+        .flashes {
+            list-style-type: none;  /* Remove bullets */
+            padding: 0;
+            text-align: center; 
+            color: #de1010;     /* Center-align the flash messages */
+        }
+
+        
+
+        .container {
+            width: 600px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Darker shadow effect */
+            background-color: #2d2d2d; /* Slightly lighter grey background */
+            position: relative;
+        }
+
+        .form-box {
+            background-color: #2d2d2d; /* Same as container background */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px; /* Adjust spacing */
+        }
+
+        .form-box h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff; /* White text color */
+            font-size: 24px; /* Larger font size */
+        }
+
+        .form-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #555; /* Darker grey border */
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #333; /* Dark grey background for inputs */
+            color: #ccc; /* Light grey text */
+            outline: none;
+        }
+
+        .form-box button {
+            width: 100%;
+            padding: 10px;
+            background-color: #7289da; /* Discord's primary color */
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-box button:hover {
+            background-color: #677bc4; /* Darker shade on hover */
+        }
+
+        .form-box a {
+            color: #7289da; /* Discord's primary color */
+            text-decoration: none;
+        }
+
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h1>Create an account</h1>
+            <form action="{{ url_for('register') }}" method="POST">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Continue</button>
+                <div style="text-align: center; margin-top: 10px;">
+                    <a href="{{ url_for('login') }}">Already have an account?</a>
+                </div>
+                {% with messages = get_flashed_messages(with_categories) %}
+                    {% if messages %}
+                        <ul class="flashes">
+                            {% for message in messages %}
+                                <li class="{{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </form>
+        </div>
+    </body>
+    </html>
