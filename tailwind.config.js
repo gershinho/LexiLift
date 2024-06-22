@@ -2,7 +2,19 @@
 module.exports = {
   content: ["./templates/**/*.{html,js}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'blac': '#222831',
+        'lblac': '#383E45',
+        'dand': '#FFD369',
+        'bone': '#EEEEEE',
+    
+      },
+    },
   },
   plugins: [],
+  corePlugins: {
+
+  },
 }
+

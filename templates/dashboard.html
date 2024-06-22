@@ -1,16 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="/src/output.css">
+    <title>LexiLift</title>
+    <link rel="stylesheet" href="/static/output.css">
+    <style>
+        /* Custom styles for the hamburger menu */
+        .line {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .line1-transform {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .line2-transform {
+            opacity: 0;
+        }
+
+        .line3-transform {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Hidden box styles */
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
-<body class = 'bg-black'>
-    <h1 >Welcome to Dashboard</h1>
-    <div>
-        <h2>Your logged in as: {{ user[2] }}</h2>
-        
+
+<body class='bg-blac'>
+    <!-- Header -->
+    <div class='bg-blac'>
+        <div class="fixed flex items-center w-screen p-5 border-b-lblac border-b bg-slate-700/20 z-50 backdrop-blur-md">
+            <!-- Hamburger Menu -->
+            <div class="relative ml-6">
+                <div id="menu-toggle" class="space-y-2 cursor-pointer">
+                    <div class="line w-8 h-0.5 bg-white"></div>
+                    <div class="line w-8 h-0.5 bg-white"></div>
+                    <div class="line w-8 h-0.5 bg-white"></div>
+                </div>
+                <div id="menu-box" class="absolute mt-2 bg-blac border border-lblac p-5 w-60 hidden rounded-md">
+                    <a href="/about" class="block px-4 py-2 text-xl text-bone">About</a>
+                    <a href="/faq" class="block px-4 py-2 text-xl text-bone">Faq</a>
+                    <a href="/dashboard" class="block px-4 py-2 text-xl text-bone">Home</a>
+                </div>
+            </div>
+            <div class="flex flex-grow">
+                <a href="/dashboard" class='text-bone font-bold text-3xl ml-6'>LexiLift</a>
+            </div>
+            <div class="flex items-center justify-end gap-4 text-white">
+                <l class="p-3 bg-dand text-blac rounded-xl w-20 h-full flex items-center justify-center">{points}</l>
+                <a href="/profile" class="ml-4">
+                    <img src="/img/pfp.png" alt="Profile Image" class="rounded-full w-10 h-10">
+                </a>
+            </div>
+        </div>
     </div>
+
+    <!-- Main content -->
+    <div class="pt-28 bg-red-900 ">
+        <div class="flex ml-40 mt-20">
+            <h2 class="text-bone text-5xl">Welcome Back {{ user[2] }}!</h2>
+        </div>
+    </div>
+    <div class="w-full  flex items-center justify-center mt-10">
+        <div class=" border border-lblac ml-40 bg-slate-700/20 w-5/6 z-50 backdrop-blur-md ">
+            dsd
+
+        </div>
+        <div class=" mr-20 ml-20 border border-lblac bg-slate-700/20 w-1/6 z-50 backdrop-blur-md ">
+            prog
+
+        </div>
+    </div>
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            this.classList.toggle('open');
+            document.querySelector('.line:nth-child(1)').classList.toggle('line1-transform');
+            document.querySelector('.line:nth-child(2)').classList.toggle('line2-transform');
+            document.querySelector('.line:nth-child(3)').classList.toggle('line3-transform');
+            document.getElementById('menu-box').classList.toggle('hidden');
+        });
+    </script>
 </body>
+
 </html>
