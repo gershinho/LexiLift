@@ -4,131 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discord Login</title>
+    <link rel="stylesheet" href="/static/output.css">
     
-    <style>
-        /* Reset default margin and padding */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1f1f1f; /* Dark grey background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .Discord {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 18px; /* Larger font size */
-            font-weight: bold;
-            position: absolute;
-            top: -175px;
-            right: 835px; /* Adjusted right position */
-            color: #ffffff; /* White text color */
-            display: flex;
-            align-items: center; /* Center vertically with the logo */
-        }
-
-        .Discord img {
-            width: 30px; /* Larger Discord logo */
-            height: auto;
-            margin-right: 15px; /* Add spacing between text and logo */
-        }
-
-        .container {
-            background-color: #2d2d2d; /* Slightly lighter grey background */
-            width: 600px; 
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Darker shadow effect */
-            position: relative; /* Ensure relative positioning for absolutely positioned child */
-        }
-
-        .welcome {
-            text-align: center;
-            margin-bottom: 10px;
-            color: #fff; /* White text color */
-            font-size: 24px; /* Larger font size */
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            
-        }
-
-        .excited {
-            text-align: center;
-            margin-bottom: 5px;
-            color: #afafaf; 
-            font-size: 15px; 
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-weight: bold;
-            margin-bottom: 6px;
-            color: #ccc; /* Light grey for labels */
-        }
-
-        .flashes {
-            list-style-type: none;  /* Remove bullets */
-            padding: 0;
-            text-align: center;  
-            color: #de1010;    
-        }
-
-        input[type="text"], input[type="password"], input[type="email"] {
-            padding: 10px;
-            margin-bottom: 16px;
-            border: 1px solid #555; /* Darker grey border */
-            border-radius: 4px;
-            font-size: 16px;
-            background-color: #333; /* Dark grey background for inputs */
-            color: #ccc; /* Light grey text */
-            outline: none;
-        }
-
-        input[type="submit"] {
-            background-color: #7289da; /* Discord's primary color */
-            color: #fff;
-            padding: 12px;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #677bc4; /* Darker shade on hover */
-        }
-
-        .links {
-            text-align: center;
-            margin-top: 10px;
-            color: #ccc; /* Light grey text for links */
-        }
-
-        .links a {
-            color: #7289da; /* Discord's primary color */
-            text-decoration: none;
-            margin: 0 5px;
-        }
-
-        .links a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    
 </head>
-<body>
+<body class = 'bg-slate-600'>
     <div class="container">
         <div class="welcome">
             Welcome Back!
@@ -161,10 +41,7 @@
                 {% endwith %}
             </div>
     
-            <div class="Discord">
-                <img src="/static/disc_logo.png" alt="Discord Logo">
-                Discord
-            </div>
+            
         </div>
     </body>
     </html>
