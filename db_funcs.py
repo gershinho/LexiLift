@@ -22,6 +22,13 @@ def user_db():
                 FOREIGN KEY (user_id) REFERENCES users (id)
             )
         ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS points (
+                user_id INTEGER,
+                points INTEGER DEFAULT 0,
+                FOREIGN KEY (user_id) REFERENCES users (id)
+            )
+        ''')
         con.commit()
 
 def increment_login_count(user_id):
@@ -82,5 +89,35 @@ def check_user_exist(email, psw):
     con.close()
     return user
 
+
+
+def update_points(user_id, points_change):
+    con = sqlite3.connect("user.db")
+    cursor = con.cursor()
+
+    # Fetch current points
+    cursor.execute('SELECT points FROM points WHERE user_id = ?', (user_id,))
+    current_points = cursor.fetchone()
+
+    if current_points:
+        new_points = current_points[0] + points_change
+        cursor.execute('UPDATE points SET points = ? WHERE user_id = ?', (new_points, user_id))
+    else:
+        cursor.execute('INSERT INTO points (user_id, points) VALUES (?, ?)', (user_id, points_change))
+
+    con.commit()
+    con.close()
+
+def get_user_points(user_id):
+    con = sqlite3.connect("user.db")
+    cursor = con.cursor()
+
+    # Fetch current points
+    cursor.execute('SELECT points FROM points WHERE user_id = ?', (user_id,))
+    points = cursor.fetchone()
+
+    con.close()
+
+    return points[0] if points else 0
 
 user_db()

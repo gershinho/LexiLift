@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LexiLift: Exercises </title>
+    <title>LexiLift: Exercises</title>
     <link rel="stylesheet" href="/static/output.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
@@ -35,9 +35,7 @@
 <body class='bg-blac'>
     <div class='bg-blac'>
         <!-- Header-->
-        <div
-            class="fixed flex items-center justify-between w-screen p-5 border-b border-blac bg-slate-700/20 z-50 backdrop-blur-md">
-            <!-- Hamburger Menu -->
+        <div class="fixed flex items-center justify-between w-screen p-5 border-b border-blac bg-slate-700/20 z-50 backdrop-blur-md">
             <div class="relative">
                 <div id="menu-toggle" class="space-y-2 cursor-pointer">
                     <div class="line w-8 h-0.5 bg-white"></div>
@@ -54,10 +52,9 @@
                 <a href="/dashboard" class='text-bone font-bold text-3xl ml-6'>LexiLift</a>
             </div>
             <div class="flex items-center justify-end gap-4 text-white">
-                <span
-                    class="p-3 bg-dand text-blac rounded-xl w-20 h-full flex items-center justify-center">{points}</span>
-                <a href="{{ url_for('profile') }}" class="ml-4">
-                    <img src="/static/img/pfp.png" alt="Profile Image" class="rounded-full w-10 h-10">
+                <span class="p-3 bg-dand text-blac rounded-xl w-20 h-full flex items-center justify-center">{{points}}</span>
+                <a href="/profile" class="ml-4">
+                    <img src="/img/pfp.png" alt="Profile Image" class="rounded-full w-10 h-10">
                 </a>
             </div>
         </div>
@@ -65,60 +62,113 @@
 
     <div class="flex flex-col items-center justify-center h-screen bg-blac">
         <div class="flex flex-col ml-5 text-bone bg-slate-700/20 z--50 backdrop-blur-md w-3/4 h-3/4 border border-gray-700 rounded-xl">
-            <h1 class="ml-5 mt-5 text-5xl font-bold text-dand">Question 10</h1> <!-- Num Here-->
-            <h2 class="ml-8 mr-8 mt-8 text-4xl font-semibold">Lorem ipsum dolor sit amet consectetur, adipisi?</h2> <!-- Question here-->
+            <h1 class="ml-5 mt-5 text-5xl font-bold text-dand">Question 10</h1>
+            <h2 class="ml-8 mr-8 mt-8 text-3xl font-semibold">
+                {% if example %}
+                {{ example }}
+                {% elif defi %}
+                {{ defi }}
+                {% endif %}
+            </h2>
     
-            <!-- Form for Options -->
-            <form id="options-form">
-                <!-- Option A -->
-                <button type="button" id="option-a" class="option-button m-3 mt-10 w-1/2 rounded-3xl p-7 text-3xl bg-blac border border-gray-700 text-bone hover:bg-dand hover:border-dand hover:text-blac focus:bg-dand focus:border-dand focus:text-blac focus:outline-none text-left">
-                    a.
+            <div id="options" class="flex flex-col">
+                <!-- Option buttons -->
+                <button data-value="{{options[0]}}" class="option-button option-a m-3 mt-10 w-1/2 rounded-3xl p-7 text-3xl bg-blac border border-gray-700 text-bone hover:bg-dand hover:border-dand hover:text-blac focus:bg-dand focus:border-dand focus:text-blac focus:outline-none text-left">
+                    {{options[0]}}
                 </button>
-                <button type="button" id="option-b" class="option-button m-3 w-1/2 rounded-3xl p-7 text-3xl bg-blac border border-gray-700 text-bone hover:bg-dand hover:border-dand hover:text-blac focus:bg-dand focus:border-dand focus:text-blac focus:outline-none text-left">
-                    b.
+                <button data-value="{{options[1]}}" class="option-button option-b m-3 w-1/2 rounded-3xl p-7 text-3xl bg-blac border border-gray-700 text-bone hover:bg-dand hover:border-dand hover:text-blac focus:bg-dand focus:border-dand focus:text-blac focus:outline-none text-left">
+                    {{options[1]}}
                 </button>
-                <button type="button" id="option-c" class="option-button m-3 w-1/2 rounded-3xl p-7 text-3xl bg-blac border border-gray-700 text-bone hover:bg-dand hover:border-dand hover:text-blac focus:bg-dand focus:border-dand focus:text-blac focus:outline-none text-left">
-                    c.
+                <button data-value="{{options[2]}}" class="option-button option-c m-3 w-1/2 rounded-3xl p-7 text-3xl bg-blac border border-gray-700 text-bone hover:bg-dand hover:border-dand hover:text-blac focus:bg-dand focus:border-dand focus:text-blac focus:outline-none text-left">
+                    {{options[2]}}
                 </button>
-                <button type="button" id="option-d" class="option-button m-3 w-1/2 rounded-3xl p-7 text-3xl bg-blac border border-gray-700 text-bone hover:bg-dand hover:border-dand hover:text-blac focus:bg-dand focus:border-dand focus:text-blac focus:outline-none text-left">
-                    d.
+                <button data-value="{{options[3]}}" class="option-button option-d m-3 w-1/2 rounded-3xl p-7 text-3xl bg-blac border border-gray-700 text-bone hover:bg-dand hover:border-dand hover:text-blac focus:bg-dand focus:border-dand focus:text-blac focus:outline-none text-left">
+                    {{options[3]}}
                 </button>
-            </form>
+            </div>
+    
+            <div class="flex justify-center mt-8">
+                <!-- Check Answer button -->
+                <button id="check-answer" class="bg-dand text-blac px-6 py-3 rounded-lg text-xl font-semibold hover:bg-gray-700 hover:text-white">
+                    Check Answer
+                </button>
+            </div>
+    
+            <div class="flashes flex justify-center mt-8">
+                <!-- Message display area -->
+            </div>
     
             <div class="flex flex-row-reverse w-full m-5">
-                <button class="font-bold text-4xl p-3 bg-dand text-blac rounded-xl w-20 h-20 flex items-center justify-center hover:bg-gray-700 hover:border-dand hover:text-blac ">
+                <!-- Next button or navigation -->
+                <button id="next" class="font-bold text-4xl p-3 bg-dand text-blac rounded-xl w-20 h-20 flex items-center justify-center hover:bg-gray-700 hover:border-dand hover:text-blac">
                     >
                 </button>
             </div>
         </div>
     </div>
     
+
     <script>
         const options = document.querySelectorAll('.option-button');
         let selectedAnswer = '';
-    
+
+        // Function to handle selection
+        const handleSelection = (event) => {
+            options.forEach(btn => btn.classList.remove('bg-dand', 'text-blac'));
+            event.target.classList.add('bg-dand', 'text-blac');
+            selectedAnswer = event.target.getAttribute('data-value').trim();
+        };
+
         options.forEach(option => {
-            option.addEventListener('click', function() {
-                // Remove selected class from all buttons
-                options.forEach(btn => btn.classList.remove('bg-dand', 'text-blac'));
-    
-                // Add selected class to the clicked button
-                this.classList.add('bg-dand', 'text-blac');
-    
-                // Store the selected answer
-                selectedAnswer = this.textContent.trim();
-                console.log('Selected Answer:', selectedAnswer);
-            });
+            option.addEventListener('click', handleSelection);
         });
-        document.getElementById('menu-toggle').addEventListener('click', function () {
+
+        // Check Answer button functionality with AJAX
+        document.getElementById('check-answer').addEventListener('click', function() {
+            if (selectedAnswer) {
+                // Prepare and send AJAX request
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/practice', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            const response = JSON.parse(xhr.responseText);
+                            const flashElement = document.querySelector('.flashes');
+                            const li = document.createElement('li');
+                            li.classList.add(response.category); // 'success' or 'error'
+                            li.textContent = response.message;
+                            flashElement.appendChild(li);
+
+                            // Optionally clear the selected answer
+                            selectedAnswer = '';
+                            options.forEach(btn => btn.classList.remove('bg-dand', 'text-blac'));
+                        } else {
+                            alert('Error: ' + xhr.status);
+                        }
+                    }
+                };
+                xhr.send('chosen_word=' + encodeURIComponent(selectedAnswer));
+            } else {
+                alert('Please select an answer before checking.');
+            }
+        });
+
+        // Menu toggle functionality
+        document.getElementById('menu-toggle').addEventListener('click', function() {
             this.classList.toggle('open');
             document.querySelector('.line:nth-child(1)').classList.toggle('line1-transform');
             document.querySelector('.line:nth-child(2)').classList.toggle('line2-transform');
             document.querySelector('.line:nth-child(3)').classList.toggle('line3-transform');
             document.getElementById('menu-box').classList.toggle('hidden');
         });
+
+        // Next button functionality
+        document.getElementById('next').addEventListener('click', function() {
+            // Navigate away to the next question or wherever needed
+            window.location.href = '/practice'; // Adjust URL as needed
+        });
     </script>
-    
 </body>
 
 </html>
