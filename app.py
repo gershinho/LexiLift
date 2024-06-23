@@ -72,13 +72,15 @@ def dashboard():
         # Redirect to login if no user found in session
         return redirect(url_for('login'))
     
-
+@app.route("/profile")
+def profile():
+    return render_template ('profile')
 
 
 @app.route("/practice", methods=['GET', 'POST'])
 def practice():
-    points_change = 0  # To track points change
     
+    points = 0
     # Check if user is logged in
     if 'user' in session:
         # Parse session['user'] if it's a JSON string
@@ -124,9 +126,9 @@ def practice():
 
         return jsonify(result_message)
 
-    return generate_question()
+    return generate_question(points)
 
-def fill_in_blank(word_list):
+def fill_in_blank(word_list, points):
     all_words = easy + medium + hard
     word = random.choice(word_list)
     details = fetch_word_details(word)
@@ -141,26 +143,22 @@ def fill_in_blank(word_list):
 
     session['correct_word'] = details['word_id']
 
-    return render_template('exercise.html', options=options, example=details['example'])
+    return render_template('exercise.html', options=options, example=details['example'], points=points)
 
-
-
-def generate_question():
-    
+def generate_question(points):
     if session['question_level'] == 'easy':
         word_list = easy
     elif session['question_level'] == 'medium':
         word_list = medium
     else:
         word_list = hard
-    print(word_list)
-    if random.choice([True, False]):
-        return best_word(word_list)
-    else:
-        return fill_in_blank(word_list)
-    
 
-def best_word(word_list):
+    if random.choice([True, False]):
+        return best_word(word_list, points)
+    else:
+        return fill_in_blank(word_list, points)
+
+def best_word(word_list, points):
     word = random.choice(word_list)
     details = fetch_word_details(word)
     options = random.sample(word_list, 3)
@@ -176,7 +174,7 @@ def best_word(word_list):
     if word.lower() in new_defi.lower():
         new_defi = re.sub(r'\b{}\b'.format(re.escape(word)), '___', new_defi, flags=re.IGNORECASE)
 
-    return render_template('exercise.html', defi=new_defi, options=options, correct_word=word)
+    return render_template('exercise.html', defi=new_defi, options=options, correct_word=word, points=points)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
