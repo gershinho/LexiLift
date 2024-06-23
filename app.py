@@ -77,6 +77,21 @@ def dashboard():
 
 @app.route("/practice", methods=['GET', 'POST'])
 def practice():
+    points_change = 0  # To track points change
+    
+    # Check if user is logged in
+    if 'user' in session:
+        # Parse session['user'] if it's a JSON string
+        if isinstance(session['user'], str):
+            user = json.loads(session['user'])
+        else:
+            user = session['user']
+        
+        user_id = user[0]
+        points = get_user_points(user_id)  # Fetch current points for the user
+    else:
+        return redirect(url_for('login'))
+
     if 'question_level' not in session:
         session['question_level'] = 'easy'
         session['correct_count'] = 0
@@ -86,9 +101,11 @@ def practice():
         correct_word = session.get('correct_word')
 
         if chosen_word == correct_word:
+            points_change = 20
             session['correct_count'] += 1
             result_message = {"message": "Correct!", "category": "success"}
         else:
+            points_change = -10
             session['correct_count'] = 0  # Reset count if wrong
             result_message = {"message": f"Sorry, the correct answer is '{correct_word}'.", "category": "error"}
 
@@ -99,25 +116,15 @@ def practice():
             session['question_level'] = 'hard'
             session['correct_count'] = 0
 
+        # Update points in the database
+        update_points(user_id, points_change)
+        
+        # Fetch updated points after update
+        points = get_user_points(user_id)
+
         return jsonify(result_message)
 
     return generate_question()
-
-
-
-def generate_question():
-    
-    if session['question_level'] == 'easy':
-        word_list = easy
-    elif session['question_level'] == 'medium':
-        word_list = medium
-    else:
-        word_list = hard
-    
-    if random.choice([True, False]):
-        return best_word(word_list)
-    else:
-        return fill_in_blank(word_list)
 
 def fill_in_blank(word_list):
     all_words = easy + medium + hard
@@ -136,6 +143,23 @@ def fill_in_blank(word_list):
 
     return render_template('exercise.html', options=options, example=details['example'])
 
+
+
+def generate_question():
+    
+    if session['question_level'] == 'easy':
+        word_list = easy
+    elif session['question_level'] == 'medium':
+        word_list = medium
+    else:
+        word_list = hard
+    print(word_list)
+    if random.choice([True, False]):
+        return best_word(word_list)
+    else:
+        return fill_in_blank(word_list)
+    
+
 def best_word(word_list):
     word = random.choice(word_list)
     details = fetch_word_details(word)
@@ -153,24 +177,6 @@ def best_word(word_list):
         new_defi = re.sub(r'\b{}\b'.format(re.escape(word)), '___', new_defi, flags=re.IGNORECASE)
 
     return render_template('exercise.html', defi=new_defi, options=options, correct_word=word)
-
-
-@app.route("/about")
-def about():
-    return render_template('about.html')
-@app.route("/exercise")
-def exercise():
-    return render_template('exercise.html')
-@app.route("/profile")
-def profile():
-    user_json = session.get('user')
-    if user_json:
-        user = json.loads(user_json)
-        return render_template('profile.html', user=user)
-    else:
-        flash('You must be logged in to view your profile.', 'error')
-        return redirect(url_for('login'))
-
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
