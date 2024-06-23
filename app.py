@@ -71,26 +71,28 @@ def dashboard():
         user = json.loads(user_json)
         user_id = user[0]
         level = get_user_lvl(user_id)
+        print(level)
         points = get_user_points(user_id)
-
-        # Points needed for next level
+        count = get_user_correc(user_id)
+  
+       
         if level == 'easy':
             points_needed = 400
         elif level == 'medium':
             points_needed = 1200
         else:
-            points_needed = 0  # No further level
+            points_needed = points  
+        if points_needed > 0:
+            progress_percentage = (points / points_needed) * 100
+        else:
+            progress_percentage = 100
 
-        # Points gained in the current session
-        session_points = session.get('session_points', 0)
-
-        return render_template('dashboard.html', user=user, points=points, points_needed=points_needed, session_points=session_points)
+        progress_percentage = min(progress_percentage, 100)
+        
+       
+        return render_template('dashboard.html',progress_percentage=progress_percentage,points_needed=points_needed, user=user, level=level, count=count, points=points)
     else:
         return redirect(url_for('login'))
-    
-
-
-
 @app.route("/profile")
 def profile():
     user_json = session.get('user')
