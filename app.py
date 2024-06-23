@@ -58,6 +58,22 @@ def dashboard():
     else:
         # Redirect to login if no user found in session
         return redirect(url_for('login'))
+@app.route("/about")
+def about():
+    return render_template('about.html')
+@app.route("/exercise")
+def exercise():
+    return render_template('exercise.html')
+@app.route("/profile")
+def profile():
+    user_json = session.get('user')
+    if user_json:
+        user = json.loads(user_json)
+        return render_template('profile.html', user=user)
+    else:
+        flash('You must be logged in to view your profile.', 'error')
+        return redirect(url_for('login'))
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

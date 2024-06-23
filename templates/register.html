@@ -1,36 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>LexiLift Register</title>
     <link rel="stylesheet" href="/static/output.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <div class="form-box">
-            <h1>Create an account</h1>
-            <form action="{{ url_for('register') }}" method="POST">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-                <button type="submit">Continue</button>
-                <div style="text-align: center; margin-top: 10px;">
-                    <a href="{{ url_for('login') }}">Already have an account?</a>
-                </div>
-                {% with messages = get_flashed_messages(with_categories) %}
-                    {% if messages %}
-                        <ul class="flashes">
-                            {% for message in messages %}
-                                <li class="{{ category }}">{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %}
-            </form>
+
+<body class="bg-blac min-h-screen flex flex-col items-center justify-center">
+    <div class="w-96 p-6 bg-slate-700/20 border border-gray-700 rounded-xl backdrop-blur-md">
+        <h1 class="text-bone text-4xl font-bold mb-4 text-center">Create an account</h1>
+
+        <form action="{{ url_for('register') }}" method="POST" class="flex flex-col space-y-4">
+            <label for="email" class="text-bone text-lg">Email</label>
+            <input type="email" id="email" name="email" required class="p-2 bg-blac border border-gray-700 rounded text-bone">
+
+            <label for="name" class="text-bone text-lg">Name</label>
+            <input type="text" id="name" name="name" required class="p-2 bg-blac border border-gray-700 rounded text-bone">
+
+            <label for="password" class="text-bone text-lg">Password</label>
+            <input type="password" id="password" name="password" required class="p-2 bg-blac border border-gray-700 rounded text-bone">
+
+            <button type="submit" class="p-3 bg-dand text-blac rounded-xl mt-4 hover:bg-ddand">Continue</button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <a href="{{ url_for('login') }}" class="text-bone hover:text-dand">Already have an account?</a>
         </div>
-    </body>
-    </html>
+
+        <div>
+            {% with messages = get_flashed_messages(with_categories) %}
+                {% if messages %}
+                    <ul class="mt-4 text-red-500">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</body>
+
+</html>
