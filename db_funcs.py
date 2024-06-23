@@ -154,5 +154,18 @@ def update_num(user_id, num):
 
     con.commit()
     con.close()
+def get_user_by_email(email):
+    con = sqlite3.connect("user.db")
+    cursor = con.cursor()
+    cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+    user = cursor.fetchone()
+    con.close()
+    return user
+def insertUser(email, name, password):
+    con = sqlite3.connect("user.db")
+    cursor = con.cursor()
+    cursor.execute("INSERT INTO users (email, name, password) VALUES (?, ?, ?)", (email, name, password))
+    con.commit()
+    con.close()
 
 user_db()

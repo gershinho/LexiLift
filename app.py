@@ -53,27 +53,77 @@ def register():
 
     return render_template('register.html')
 
-@app.route("/dashboard", methods=['GET', 'POST'])
+
+@app.route("/about")
+def about():
+    user_json = session.get('user')
+    if user_json:
+        user = json.loads(user_json)
+        points = get_user_points(user[0])
+        return render_template('about.html', points=points)
+    else:
+        return render_template('about.html', points=0)
+
+@app.route('/dashboard')
 def dashboard():
     user_json = session.get('user')
     if user_json:
         user = json.loads(user_json)
-        return render_template('dashboard.html', user=user)
+        user_id = user[0]
+        level = get_user_lvl(user_id)
+        points = get_user_points(user_id)
+
+        # Points needed for next level
+        if level == 'easy':
+            points_needed = 400
+        elif level == 'medium':
+            points_needed = 1200
+        else:
+            points_needed = 0  # No further level
+
+        # Points gained in the current session
+        session_points = session.get('session_points', 0)
+
+        return render_template('dashboard.html', user=user, points=points, points_needed=points_needed, session_points=session_points)
     else:
         return redirect(url_for('login'))
+    
+
+
 
 @app.route("/profile")
 def profile():
-
     user_json = session.get('user')
     if user_json:
         user = json.loads(user_json)
-        return render_template('profile.html', user=user)
+        user_id = user[0]
+        points = get_user_points(user_id)
+        correct_count = get_user_correc(user_id)
+        level = get_user_lvl(user_id)
+        
+        # Determine achievements
+        achievements = []
+        if correct_count >= 5:
+            achievements.append("a-1.png")
+        if points >= 500:
+            achievements.append("a-2.png")
+        if level == 'medium':
+            achievements.append("a-3.png")
+        if points >= 5500:
+            achievements.append("a-4.png")
+        if correct_count >= 25:
+            achievements.append("a-5.png")
+        if level == 'hard':
+            achievements.append("a-6.png")
+        if correct_count >= 50:
+            achievements.append("a-7.png")
+        if points >= 120000:
+            achievements.append("a-8.png")
+
+        return render_template('profile.html', user=user, points=points, correct_count=correct_count, level=level, achievements=achievements)
     else:
         flash('You must be logged in to view your profile.', 'error')
         return redirect(url_for('login'))
-
-
 
 @app.route("/practice", methods=['GET', 'POST'])
 def practice():
