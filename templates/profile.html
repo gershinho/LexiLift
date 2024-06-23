@@ -9,58 +9,57 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         /* Custom styles for the hamburger menu */
-        .line {
+       .line {
             transition: all 0.3s ease-in-out;
         }
 
-        .line1-transform {
+       .line1-transform {
             transform: translateY(8px) rotate(45deg);
         }
 
-        .line2-transform {
+       .line2-transform {
             opacity: 0;
         }
 
-        .line3-transform {
+       .line3-transform {
             transform: translateY(-8px) rotate(-45deg);
         }
 
         /* Hidden box styles */
-        .hidden {
+       .hidden {
             display: none;
         }
 
         /* Tab styles */
-        .tab-content {
+       .tab-content {
             display: none;
         }
 
-        .tab-content.active {
+       .tab-content.active {
             display: block;
         }
 
-        .tab-button {
-    
+       .tab-button {
             padding: 0.5rem 1rem;
             text-align: center;
             cursor: pointer;
         }
 
-        .tab-button:hover {
+       .tab-button:hover {
             background-color: #FFD369;
             color: #222831;
         }
 
-        .tab-button.active {
+       .tab-button.active {
             background-color: #FFD369;
             color: #222831;
         }
     </style>
 </head>
 
-<body class='bg-blac min-h-screen flex flex-col'>
+<body class='bg-black min-h-screen flex flex-col'>
     <!-- Header -->
-    <div class='bg-blac'>
+    <div class='bg-black'>
         <div class="fixed flex items-center w-screen p-5 border-b-lblac border-b bg-slate-700/20 z-50 backdrop-blur-md">
             <!-- Hamburger Menu -->
             <div class="relative ml-6">
@@ -69,7 +68,7 @@
                     <div class="line w-8 h-0.5 bg-white"></div>
                     <div class="line w-8 h-0.5 bg-white"></div>
                 </div>
-                <div id="menu-box" class="absolute mt-2 bg-blac border border-lblac p-5 w-60 hidden rounded-md">
+                <div id="menu-box" class="absolute mt-2 bg-black border border-lblac p-5 w-60 hidden rounded-md">
                     <a href="/about" class="block px-4 py-2 text-xl text-bone">About</a>
                     <a href="/faq" class="block px-4 py-2 text-xl text-bone">Faq</a>
                     <a href="/dashboard" class="block px-4 py-2 text-xl text-bone">Home</a>
@@ -79,7 +78,7 @@
                 <a href="/dashboard" class='text-bone font-bold text-3xl ml-6'>LexiLift</a>
             </div>
             <div class="flex items-center justify-end gap-4 text-white">
-                <span class="p-3 bg-dand text-blac rounded-xl w-20 h-full flex items-center justify-center">{points}</span>
+                <span class="p-3 bg-dand text-black rounded-xl w-20 h-full flex items-center justify-center">{{ points }}</span>
                 <a href="{{ url_for('profile') }}" class="ml-4">
                     <img src="static/img/pfp.png" alt="Profile Image" class="rounded-full w-10 h-10">
                 </a>
@@ -97,59 +96,25 @@
             <!-- Tabs -->
             <div class="w-full mt-10">
                 <div class="flex mb-5">
-                    <button id="account-info-tab" class="tab-button text-xl text-bone flex-1 border border-gray-700 rounded-xl bg-blac m-3">Account Info</button>
-                    <button id="achievements-tab" class = "tab-button text-xl text-bone flex-1 border border-gray-700 rounded-xl bg-blac m-3">Achievements</button>
+                    <button id="achievements-tab" class="tab-button text-xl text-bone flex-1 border border-gray-700 rounded-xl bg-black m-3">Achievements</button>
+                    <button id="account-info-tab" class="tab-button text-xl text-bone flex-1 border border-gray-700 rounded-xl bg-black m-3">Account Info</button>
                 </div>
-                <div id="account-info" class="tab-content active">
-                    <h3 class="text-2xl">Account Info Content</h3>
-                    <p class="mt-4">This is where the account information will be displayed.</p>
+                <div id="achievements" class="tab-content active">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Achievement cards here -->
+                    </div>
                 </div>
-                <div id="achievements" class="tab-content">
-                    <h3 class="text-2xl">Achievements Content</h3>
-                    <p class="mt-4">This is where the achievements will be displayed.</p>
+                <div id="account-info" class="tab-content">
+                    <div class="flex flex-col">
+                        <l>Email: {{ Email }}</l>
+                        <l>Password: {{ Password }}</l>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        document.getElementById('menu-toggle').addEventListener('click', function () {
-            this.classList.toggle('open');
-            document.querySelector('.line:nth-child(1)').classList.toggle('line1-transform');
-            document.querySelector('.line:nth-child(2)').classList.toggle('line2-transform');
-            document.querySelector('.line:nth-child(3)').classList.toggle('line3-transform');
-            document.getElementById('menu-box').classList.toggle('hidden');
-        });
-
-        // Tab functionality
-        const accountInfoTab = document.getElementById('account-info-tab');
-        const achievementsTab = document.getElementById('achievements-tab');
-        const accountInfoContent = document.getElementById('account-info');
-        const achievementsContent = document.getElementById('achievements');
-        const tabButtons = document.querySelectorAll('.tab-button');
-
-        accountInfoTab.addEventListener('click', () => {
-            accountInfoContent.classList.add('active');
-            achievementsContent.classList.remove('active');
-            accountInfoTab.classList.add('active');
-            achievementsTab.classList.remove('active');
-        });
-
-        achievementsTab.addEventListener('click', () => {
-            achievementsContent.classList.add('active');
-            accountInfoContent.classList.remove('active');
-            achievementsTab.classList.add('active');
-            accountInfoTab.classList.remove('active');
-        });
-
-        // Add hover effect to tab buttons
-        tabButtons.forEach(button => {
-            button.addEventListener('mouseover', () => {
-                button.classList.add('hover');
-            });
-            button.addEventListener('mouseout', () => {
-                button.classList.remove('hover');
-            });
-        });
+        // JavaScript code here
     </script>
 </body>
 

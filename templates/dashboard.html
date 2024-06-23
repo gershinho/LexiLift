@@ -51,7 +51,7 @@
                 <a href="/dashboard" class='text-bone font-bold text-3xl ml-6'>LexiLift</a>
             </div>
             <div class="flex items-center justify-end gap-4 text-white">
-                <l class="p-3 bg-dand text-blac rounded-xl w-20 h-full flex items-center justify-center">{{points}}</l>
+                <l class="p-3 bg-dand text-ddand rounded-xl w-20 h-full flex items-center justify-center">{{points}}</l>
                 {% if user %}
                     <a href="{{ url_for('profile') }}" class="ml-4">
                         <img src="/static/img/pfp.png" alt="Profile Image" class="rounded-full w-10 h-10">
@@ -70,7 +70,7 @@
         </div>
     </div>
     <div class= "flex-1 w-full flex justify-center items-center ">
-        <div class="flex border border-lblac ml-40 bg-slate-700/20 h-[32rem] w-5/6 z-50 backdrop-blur-md text-bone rounded-[50px] p-10 pt-5 flex-col ">
+        <div class="flex border border-lblac ml-40 bg-slate-700/20 h-[32rem] w-5/6 z--50 backdrop-blur-md text-bone rounded-[50px] p-10 pt-5 flex-col ">
             <div class="border border-blac w-full bg-red-600 h-1/5 rounded-[50px] p-6 pl-12 flex items-center">
                 <div class="flex w-1/2">
                     <div class="text-blac text-4xl font-semibold"> Level: </div>
@@ -215,10 +215,10 @@
         </div>
         <div class="flex  flex-col mr-20 ml-20 w-1/6 text-bone items-center justify-center">
             <div>
-                <l class="font-semibold text-2xl mb-5">Today's Lift: </l> <l class="text-2xl text-blac bg-dand p-2 rounded-xl">100/400</l> <!--current points earned/goal-->
+                <l class="font-semibold text-2xl mb-5">Today's Lift: </l> <l class="text-2xl text-ddand bg-dand p-2 rounded-xl">100/400</l> <!--current points earned/goal-->
             </div>
             <div class="w-full h-[32rem] border border-gray-700 bg-bone rounded-[50px] p-5 mt-5 flex  flex-col-reverse">
-                <div class="w-full h-[25%] border border-gray-700 bg-dand rounded-[50px] p-5"> <!--Progress Bar Daily-->
+                <div class="w-full h-[25%] border border-ddand bg-dand rounded-[50px] p-5"> <!--Progress Bar Daily-->
                     
                 </div>
                 
@@ -226,8 +226,80 @@
         </div>
         
     </div>
-    
-    
+    <div class="flex w-full justify-center items-center">
+        <l class="text-xl text-bone">Locked Levels ↓</l>
+    </div>
+    <!-- Locked Levels-->
+    <div class="mt-20 flex border border-lblac ml-40 bg-slate-700/20 h-[32rem] w-5/6 z--50 backdrop-blur-md text-bone rounded-[50px] p-10 pt-5 flex-col ">
+        <div class="border border-blac w-full bg-blac h-1/5 rounded-[50px] p-6 pl-12 flex items-center">
+            <div class="flex w-1/2">
+                <div class="text-gray-700 text-4xl font-semibold"> Level: </div>
+                <div class="text-gray-700 text-4xl "> ‎ Red </div>
+            </div>
+            <div class="flex flex-row-reverse w-1/2">
+                <div class="text-gray-700 text-5xl font-light">1200pts/ 7 Streak  </div>
+            </div>
+        </div>
+        <div class="w-full flex flex-row">  
+            <div class="flex flex-row w-1/2">
+
+                
+            </div>
+            <div class="flex flex-row-reverse w-1/2">
+                <l class="text-3xl text-blac w-1/6 border border-blac bg-blac mt-10 mr-6 rounded-r-lg flex justify-center items-center"> </l> 
+                <l class="text-3xl text-blac w-1/3 border border-blac bg-blac p-2 mr-1 mt-10 rounded-l-lg flex items-center "> .</l> 
+                
+            </div>
+        </div>
+       
+    </div>
+    <div class="mt-10 flex border border-lblac ml-40 bg-slate-700/20 h-[32rem] w-5/6 z--50 backdrop-blur-md text-bone rounded-[50px] p-10 pt-5 flex-col ">
+        <div class="border border-blac w-full bg-blac h-1/5 rounded-[50px] p-6 pl-12 flex items-center">
+            <div class="flex w-1/2">
+                <div class="text-gray-700 text-4xl font-semibold"> Level: </div>
+                <div class="text-gray-700 text-4xl "> ‎ Purple </div>
+            </div>
+            <div class="flex flex-row-reverse w-1/2">
+                <div class="text-gray-700 text-5xl font-light">5200pts/ 5 Streak  </div>
+            </div>
+        </div>
+        <div class="w-full flex flex-row">  
+            <div class="flex flex-row w-1/2">
+
+                
+            </div>
+            <div class="flex flex-row-reverse w-1/2">
+                <l class="text-3xl text-blac w-1/6 border border-blac bg-blac mt-10 mr-6 rounded-r-lg flex justify-center items-center"> </l> 
+                <l class="text-3xl text-blac w-1/3 border border-blac bg-blac p-2 mr-1 mt-10 rounded-l-lg flex items-center "> .</l> 
+                
+            </div>
+        </div>
+       
+    </div>
+    <div class="mt-10 flex border border-lblac ml-40 bg-slate-700/20 h-[32rem] w-5/6 z--50 backdrop-blur-md text-bone rounded-[50px] p-10 pt-5 flex-col ">
+        <div class="border border-blac w-full bg-blac h-1/5 rounded-[50px] p-6 pl-12 flex items-center">
+            <div class="flex w-1/2">
+                <div class="text-gray-700 text-4xl font-semibold"> Level: </div>
+                <div class="text-gray-700 text-4xl "> ‎ Blue </div>
+            </div>
+            <div class="flex flex-row-reverse w-1/2">
+                <div class="text-gray-700 text-5xl font-light">10000pts/ 3 Streak  </div>
+            </div>
+        </div>
+        <div class="w-full flex flex-row">  
+            <div class="flex flex-row w-1/2">
+
+                
+            </div>
+            <div class="flex flex-row-reverse w-1/2">
+                <l class="text-3xl text-blac w-1/6 border border-blac bg-blac mt-10 mr-6 rounded-r-lg flex justify-center items-center"> </l> 
+                <l class="text-3xl text-blac w-1/3 border border-blac bg-blac p-2 mr-1 mt-10 rounded-l-lg flex items-center "> .</l> 
+                
+            </div>
+        </div>
+       
+    </div>
+
     <script>
         document.getElementById('menu-toggle').addEventListener('click', function () {
             this.classList.toggle('open');
