@@ -3,15 +3,11 @@ import random
 import string
 import re
 
-easy = ['apple', 'happy', 'friend', 'blue', 'cat', 'sun', 'dog', 'bird', 'fish', 'ship', 'moon', 'door', 'park', 'song', 'pen', 'hat', 'cake', 'hill', 'rain', 'corn', 'smile', 'road', 'bike', 'bell', 'duck', 'sand', 'hill', 'town', 'frog', 'soap', 'farm', 'shoe', 'juice', 'chair', 'shirt', 'tiger', 'phone', 'plant', 'sleep', 'happy', 'friend', 'blue', 'cat', 'sun', 'dog', 'bird', 'fish', 'ship', 'moon', 'door', 'park', 'song', 'pen', 'hat', 'cake']
+easy = ['happy', 'friend', 'blue', 'cat', 'sun', 'dog', 'fish', 'ship', 'moon', 'door', 'park', 'song', 'pen', 'hat', 'cake', 'rain', 'smile', 'road', 'bell', 'duck', 'town', 'frog', 'farm', 'shoe', 'juice', 'chair', 'shirt', 'tiger', 'phone', 'plant', 'sleep', 'happy', 'friend', 'blue', 'cat', 'sun', 'dog', 'fish', 'ship', 'moon', 'door', 'park', 'song', 'pen', 'hat', 'cake', 'light', 'box', 'wind', 'bread', 'wall', 'cup', 'note', 'map', 'glue', 'queen', 'robot', 'spoon', 'train', 'whale', 'bat', 'cake', 'cat', 'dog', 'ear', 'fan', 'hat', 'ink', 'rat', 'sun', 'web']
 
+medium = ['ambivalence', 'ephemeral', 'quintessential', 'benevolent', 'meticulous', 'surreptitious', 'vulnerable', 'defenestration', 'gregarious', 'hedonist', 'insidious', 'labyrinthine', 'mellifluous', 'recalcitrant', 'salubrious', 'ubiquitous', 'yearn', 'zealous', 'alacrity', 'cathartic', 'deleterious', 'effervescent', 'facetious', 'gregarious', 'histrionic', 'impetuous', 'jejune', 'kaleidoscope', 'labyrinth', 'nebulous', 'opulent', 'panacea', 'recondite', 'tantamount', 'ubiquitous', 'wanton', 'zenith', 'altruistic', 'benevolent', 'cogent', 'didactic', 'efficacious', 'gregarious', 'juxtapose', 'kowtow', 'magnanimous', 'obfuscate']
 
-medium =  ['ambivalence', 'serendipity', 'ephemeral', 'quintessential', 'benevolent', 'meticulous', 'resilient', 'surreptitious', 'integrity', 'vulnerable', 'capricious', 'defenestration', 'enervate', 'gregarious', 'hedonist', 'insidious', 'labyrinthine', 'mellifluous', 'nefarious', 'obsequious', 'parsimonious', 'quixotic', 'recalcitrant', 'salubrious', 'taciturn', 'ubiquitous', 'welter', 'xenophobic', 'yearn', 'zealous', 'alacrity', 'belligerent', 'cathartic', 'deleterious', 'effervescent', 'facetious', 'gregarious', 'histrionic', 'impetuous', 'jejune', 'kaleidoscope', 'labyrinth', 'misanthrope', 'nebulous', 'opulent', 'panacea', 'quandary', 'recondite', 'serendipity', 'tantamount', 'ubiquitous', 'verisimilitude', 'wanton', 'xenophobia', 'zenith', 'altruistic', 'benevolent', 'cogent', 'didactic', 'efficacious', 'gregarious', 'hallowed', 'iconoclast', 'juxtapose', 'kowtow', 'laconic', 'magnanimous', 'nadir', 'obfuscate', 'pedantic', 'quintessential', 'reverent', 'sycophant', 'trepidation', 'ubiquitous', 'verbose', 'winsome', 'xenophobe', 'yearn', 'zenith', 'agnostic', 'bucolic', 'catalyst', 'dichotomy', 'frugal', 'garrulous']
-
-
-hard = ['paradox', 'equanimity', 'ubiquitous', 'cacophony', 'ebullient', 'idiosyncrasy', 'quixotic', 'deleterious', 'antediluvian', 'perspicacious', 'anachronistic', 'bombastic', 'cynosure', 'diaphanous', 'ebullient', 'fugacious', 'garrulous', 'histrionic', 'iconoclast', 'jejune', 'kaleidoscope', 'labyrinthine', 'mellifluous', 'nefarious', 'obsequious', 'peregrinate', 'quiescent', 'recalcitrant', 'salubrious', 'tantamount', 'ululate', 'vexatious', 'winsome', 'xenophobia', 'yonder', 'zephyr', 'aberration', 'beleaguer', 'cavalcade', 'desultory', 'effulgent', 'facetious', 'genuflect', 'hagiography', 'inculcate', 'juxtapose', 'kowtow', 'lambent', 'maelstrom', 'nadir', 'obfuscate', 'pastiche', 'quandary', 'ratiocinate', 'sangfroid', 'terpsichorean', 'ubiquitous', 'vacillate', 'welter', 'xenophobe', 'yearn', 'zenith', 'abstemious', 'bucolic', 'cogent', 'deleterious', 'effervescent', 'gregarious', 'hallowed', 'iconoclast', 'juxtapose', 'kowtow', 'laconic', 'magnanimous', 'nadir', 'obfuscate', 'pedantic', 'quintessential', 'reverent', 'sycophant', 'trepidation', 'ubiquitous', 'verbose', 'winsome', 'xenophobe', 'yearn', 'zenith', 'agnostic', 'bucolic']
-
-
+hard = ['equanimity', 'ubiquitous', 'cacophony', 'ebullient', 'deleterious', 'antediluvian', 'cynosure', 'diaphanous', 'ebullient', 'garrulous', 'histrionic', 'jejune', 'kaleidoscope', 'labyrinthine', 'mellifluous', 'quiescent', 'recalcitrant', 'salubrious', 'tantamount', 'ululate', 'vexatious', 'winsome', 'aberration', 'cavalcade', 'desultory', 'facetious', 'genuflect', 'hagiography', 'juxtapose', 'kowtow', 'maelstrom', 'obfuscate', 'pastiche', 'ubiquitous', 'yearn', 'zenith', 'abstemious', 'cogent', 'deleterious', 'effervescent', 'gregarious']
 
 DIC_KEY = 'f41c1a5b-1a8c-481b-9175-6ba7d619643c'
 DIC_URL = 'https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={api_key}'
@@ -29,19 +25,14 @@ def fetch_word_details(word):
             word_id = word_details.get('meta', {}).get('id', '')
             word_id = word_id.split(':')[0]
             part_of_speech = word_details.get('fl', '')
-            definitions = word_details.get('shortdef', [0])
+            definitions = word_details.get('shortdef', [])
             
-            # Remove punctuation from definitions
+            # Remove punctuation from definitions and filter out short ones
             clean_definitions = []
             for definition in definitions:
-                first_the_index = definition.find('the')
-                if first_the_index != -1:
-                    clean_definition = definition[:first_the_index]
-                else:
-                    clean_definition = definition
-                    
-                clean_definition = clean_definition.translate(str.maketrans('', '', string.punctuation))
-                clean_definitions.append(clean_definition.strip())
+                definition = definition.translate(str.maketrans('', '', string.punctuation))
+                if len(definition.split()) >= 5:
+                    clean_definitions.append(definition.strip())
     
             # Extracting example sentences
             examples = []
@@ -81,9 +72,10 @@ def fetch_word_details(word):
                 'example': example,
             }
     
-            #(details)
-            return details
-            
+            if clean_definitions:  # Ensure there are valid definitions
+                return details
+            else:
+                print(f"No valid definitions for '{word}'")
     
         else:
             print("shortdef not found in the response for word:", word)
@@ -98,7 +90,6 @@ def fetch_word_details(word):
     except Exception as e:
         print(f"Unexpected error for '{word}': {e}")
         return None
-
 
 def check_for_errors(words):
     words_with_issues = []
@@ -116,8 +107,24 @@ def clean_list(original_list, words_to_remove):
     print(cleaned_list)
     return cleaned_list
 
+def filter_words_with_long_examples(word_list):
+    filtered_words = []
+    for word in word_list:
+        details = fetch_word_details(word)
+        if details and 'example' in details and len(details['example'].split()) > 3:
+            filtered_words.append(word)
+    return filtered_words
 
+# Example usage
+# filtered_easy_words = filter_words_with_long_examples(easy)
+# filtered_medium_words = filter_words_with_long_examples(medium)
+# filtered_hard_words = filter_words_with_long_examples(hard)
 
+# print("Filtered Easy Words:", filtered_easy_words)
+# print("Filtered Medium Words:", filtered_medium_words)
+# print("Filtered Hard Words:", filtered_hard_words)
 
-
-
+ # Example usage
+ # words_with_issues = check_for_errors(easy)
+ # cleaned_easy_words = clean_list(easy, words_with_issues)
+ # print(cleaned_easy_words)

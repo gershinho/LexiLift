@@ -8,26 +8,42 @@
     <link rel="stylesheet" href="/static/output.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        /* Custom styles for the hamburger menu */
         .line {
             transition: all 0.3s ease-in-out;
         }
-
         .line1-transform {
             transform: translateY(8px) rotate(45deg);
         }
-
         .line2-transform {
             opacity: 0;
         }
-
         .line3-transform {
             transform: translateY(-8px) rotate(-45deg);
         }
-
-        /* Hidden box styles */
         .hidden {
             display: none;
+        }
+    
+        .orange-red-text {
+            color: #FF4500;
+        }
+        
+        .orange-red-bg {
+            background-color: #FF4500;
+            color: #ffffff;  /* Ensures the text is visible */
+        }
+        .orange-red-hover:hover {
+            background-color: #FF6347;
+        }
+        .purple-bg {
+            background-color: #800080;
+            color: #ffffff;  /* Ensures the text is visible */
+        }
+        .purple-hover:hover {
+            background-color: #9932CC;
+        }
+        .purple-text {
+            color: #800080;
         }
     </style>
 </head>
@@ -62,7 +78,7 @@
 
     <div class="flex flex-col items-center justify-center h-screen bg-blac">
         <div class="flex flex-col ml-5 text-bone bg-slate-700/20 z--50 backdrop-blur-md w-3/4 h-3/4 border border-gray-700 rounded-xl">
-            <h1 class="ml-5 mt-5 text-5xl font-bold text-dand">Question 10</h1>
+            <h1 class="ml-5 mt-5 text-5xl font-bold {% if level == 'medium' %}orange-red-text{% elif level == 'hard' %}purple-text{% else %}text-dand{% endif %}">Question {{num}}</h1>
             <h2 class="ml-8 mr-8 mt-8 text-3xl font-semibold">
                 {% if example %}
                 {{ example }}
@@ -72,7 +88,6 @@
             </h2>
     
             <div id="options" class="flex flex-col">
-                <!-- Option buttons -->
                 <button data-value="{{options[0]}}" class="option-button option-a m-3 mt-10 w-1/2 rounded-3xl p-7 text-3xl bg-blac border border-gray-700 text-bone hover:bg-dand hover:border-dand hover:text-blac focus:bg-dand focus:border-dand focus:text-blac focus:outline-none text-left">
                     {{options[0]}}
                 </button>
@@ -86,21 +101,18 @@
                     {{options[3]}}
                 </button>
             </div>
+
+            <div id="message-div" class="flashes flex justify-center mt-4">
+            </div>
     
             <div class="flex justify-center mt-8">
-                <!-- Check Answer button -->
-                <button id="check-answer" class="bg-dand text-blac px-6 py-3 rounded-lg text-xl font-semibold hover:bg-gray-700 hover:text-white">
+                <button id="check-answer" class="{% if level == 'medium' %}orange-red-bg orange-red-hover{% elif level == 'hard' %}purple-bg purple-hover{% else %}bg-dand{% endif %} text-blac px-6 py-3 rounded-lg text-xl font-semibold hover:bg-gray-700 hover:text-white">
                     Check Answer
                 </button>
             </div>
     
-            <div class="flashes flex justify-center mt-8">
-                <!-- Message display area -->
-            </div>
-    
             <div class="flex flex-row-reverse w-full m-5">
-                <!-- Next button or navigation -->
-                <button id="next" class="font-bold text-4xl p-3 bg-dand text-blac rounded-xl w-20 h-20 flex items-center justify-center hover:bg-gray-700 hover:border-dand hover:text-blac">
+                <button id="next" class="font-bold text-4xl p-3 {% if level == 'medium' %}orange-red-bg orange-red-hover{% elif level == 'hard' %}purple-bg purple-hover{% else %}bg-dand{% endif %} rounded-xl w-20 h-20 flex items-center justify-center hover:bg-gray-700 hover:border-dand hover:text-bl">
                     >
                 </button>
             </div>
@@ -111,21 +123,31 @@
     <script>
         const options = document.querySelectorAll('.option-button');
         let selectedAnswer = '';
-
+        let answerChecked = false;
+    
         // Function to handle selection
         const handleSelection = (event) => {
-            options.forEach(btn => btn.classList.remove('bg-dand', 'text-blac'));
-            event.target.classList.add('bg-dand', 'text-blac');
-            selectedAnswer = event.target.getAttribute('data-value').trim();
+            if (!answerChecked) {
+                options.forEach(btn => btn.classList.remove('bg-dand', 'text-blac'));
+                event.target.classList.add('bg-dand', 'text-blac');
+                selectedAnswer = event.target.getAttribute('data-value').trim();
+            }
         };
-
+    
         options.forEach(option => {
             option.addEventListener('click', handleSelection);
         });
-
+    
         // Check Answer button functionality with AJAX
         document.getElementById('check-answer').addEventListener('click', function() {
             if (selectedAnswer) {
+                // Disable further selections
+                answerChecked = true;
+                options.forEach(option => {
+                    option.removeEventListener('click', handleSelection);
+                    option.classList.add('cursor-not-allowed');
+                });
+                
                 // Prepare and send AJAX request
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', '/practice', true);
@@ -134,15 +156,22 @@
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
                             const response = JSON.parse(xhr.responseText);
-                            const flashElement = document.querySelector('.flashes');
-                            const li = document.createElement('li');
-                            li.classList.add(response.category); // 'success' or 'error'
-                            li.textContent = response.message;
-                            flashElement.appendChild(li);
-
+                            console.log('Response received:', response); // Debugging line
+                            const messageDiv = document.getElementById('message-div');
+                            
+                            // Clear previous messages
+                            messageDiv.innerHTML = '';
+                            
+                            // Create new message element
+                            const messageElement = document.createElement('p');
+                            messageElement.textContent = response.message;
+                            messageElement.classList.add(response.category); // 'success' or 'error'
+                            
+                            // Append message element to message div
+                            messageDiv.appendChild(messageElement);
+                            
                             // Optionally clear the selected answer
                             selectedAnswer = '';
-                            options.forEach(btn => btn.classList.remove('bg-dand', 'text-blac'));
                         } else {
                             alert('Error: ' + xhr.status);
                         }
@@ -153,7 +182,7 @@
                 alert('Please select an answer before checking.');
             }
         });
-
+    
         // Menu toggle functionality
         document.getElementById('menu-toggle').addEventListener('click', function() {
             this.classList.toggle('open');
@@ -162,11 +191,10 @@
             document.querySelector('.line:nth-child(3)').classList.toggle('line3-transform');
             document.getElementById('menu-box').classList.toggle('hidden');
         });
-
+    
         // Next button functionality
         document.getElementById('next').addEventListener('click', function() {
-            // Navigate away to the next question or wherever needed
-            window.location.href = '/practice'; // Adjust URL as needed
+            window.location.href = '/practice';
         });
     </script>
 </body>

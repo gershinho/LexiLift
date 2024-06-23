@@ -3,18 +3,11 @@ import sqlite3
 import json
 from db_funcs import *
 from dic import *
-import re 
+import re
 import random
-
-
-#some words have diff amoutn of defintions so might make conditonal that makes sure if def[0] doesnt have anything use def[1]
-#make it so you can see other defintions of word
-#if word in defintion replace with blank even if its a best word question
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "gersh"
-
-
 
 def filter_words(word_list):
     filtered_words = []
@@ -26,7 +19,6 @@ def filter_words(word_list):
 
 @app.route("/", methods=['GET', 'POST'])
 def login():
-    
     if request.method == 'POST':
         email = request.form.get("email")
         psw = request.form.get("password")
@@ -34,9 +26,8 @@ def login():
         if check_user_exist(email, psw):
             user = find_user(email, psw)
             session['user'] = json.dumps(user)
-            increment_login_count(user[0])  
+            increment_login_count(user[0])
             return redirect(url_for('dashboard'))
-            
         
         flash('Email or password is incorrect', 'error')
         return redirect(url_for('login'))
@@ -69,102 +60,116 @@ def dashboard():
         user = json.loads(user_json)
         return render_template('dashboard.html', user=user)
     else:
-        # Redirect to login if no user found in session
         return redirect(url_for('login'))
-    
+
 @app.route("/profile")
 def profile():
-    return render_template ('profile')
-
+    return render_template('profile.html')
 
 @app.route("/practice", methods=['GET', 'POST'])
 def practice():
-    
-    points = 0
-    # Check if user is logged in
     if 'user' in session:
-        # Parse session['user'] if it's a JSON string
         if isinstance(session['user'], str):
             user = json.loads(session['user'])
         else:
             user = session['user']
         
         user_id = user[0]
-        points = get_user_points(user_id)  # Fetch current points for the user
     else:
         return redirect(url_for('login'))
-
-    if 'question_level' not in session:
-        session['question_level'] = 'easy'
-        session['correct_count'] = 0
 
     if request.method == 'POST':
         chosen_word = request.form.get('chosen_word')
         correct_word = session.get('correct_word')
 
+        # Fetch the current points, correct count, level, and question number from the database
+        points = get_user_points(user_id)
+        correct_count = get_user_correc(user_id)
+        level = get_user_lvl(user_id)
+        num = get_user_num(user_id)
+
         if chosen_word == correct_word:
             points_change = 20
-            session['correct_count'] += 1
+            correct_count += 1
             result_message = {"message": "Correct!", "category": "success"}
         else:
             points_change = -10
-            session['correct_count'] = 0  # Reset count if wrong
+            correct_count = 0
             result_message = {"message": f"Sorry, the correct answer is '{correct_word}'.", "category": "error"}
 
-        if session['question_level'] == 'easy' and session['correct_count'] == 5:
-            session['question_level'] = 'medium'
-            session['correct_count'] = 0
-        elif session['question_level'] == 'medium' and session['correct_count'] == 5:
-            session['question_level'] = 'hard'
-            session['correct_count'] = 0
+        # Update the level and reset question number if the correct count conditions are met
+        if level == 'easy' and correct_count >= 7:
+            level = 'medium'
+            correct_count = 0
+            num = 1
+        elif level == 'medium' and correct_count >= 5:
+            level = 'hard'
+            correct_count = 0
+            num = 1
+        else:
+            num += 1
 
-        # Update points in the database
+        # Update points, count, level, and question number in the database
         update_points(user_id, points_change)
-        
-        # Fetch updated points after update
-        points = get_user_points(user_id)
+        update_count(user_id, correct_count)
+        update_level(user_id, level)
+        update_num(user_id, num)
 
         return jsonify(result_message)
 
-    return generate_question(points)
+    return generate_question(user_id)
 
-def fill_in_blank(word_list, points):
-    all_words = easy + medium + hard
-    word = random.choice(word_list)
-    details = fetch_word_details(word)
-
-    while details['example'] == '':
-        word = random.choice(word_list)
-        details = fetch_word_details(word)
-
-    options = random.sample(all_words, 3)
-    options.append(details['word_id'])
-    random.shuffle(options)
-
-    session['correct_word'] = details['word_id']
-
-    return render_template('exercise.html', options=options, example=details['example'], points=points)
-
-def generate_question(points):
-    if session['question_level'] == 'easy':
+def generate_question(user_id):
+    level = get_user_lvl(user_id)
+    num = get_user_num(user_id)
+    
+    if level == 'easy':
         word_list = easy
-    elif session['question_level'] == 'medium':
+    elif level == 'medium':
         word_list = medium
     else:
         word_list = hard
 
     if random.choice([True, False]):
-        return best_word(word_list, points)
+        return best_word(word_list, user_id, num, level)
     else:
-        return fill_in_blank(word_list, points)
+        return fill_in_blank(word_list, user_id, num, level)
 
-def best_word(word_list, points):
+def fill_in_blank(word_list, user_id, num, level):
+    all_words = easy + medium + hard
     word = random.choice(word_list)
     details = fetch_word_details(word)
+
+    while details is None or details.get('example', '') == '':
+        word = random.choice(word_list)
+        details = fetch_word_details(word)
+
     options = random.sample(word_list, 3)
+    if details['word_id'] in options:
+        options.remove(details['word_id'])
+    options.append(details['word_id'])
+    random.shuffle(options)
+
+    session['correct_word'] = details['word_id']
+
+    points = get_user_points(user_id)
+    return render_template('exercise.html', options=options, example=details['example'], points=points, num=num, level=level)
+
+def best_word(word_list, user_id, num, level):
+    word = random.choice(word_list)
+    details = fetch_word_details(word)
+    
+    while details is None:
+        word = random.choice(word_list)
+        details = fetch_word_details(word)
+    
+    options = random.sample(word_list, 3)
+    if details['word_id'] in options:
+        options.remove(details['word_id'])
     options.append(details['word_id'])
     random.shuffle(options)
     session['correct_word'] = details['word_id']
+    
     defi = details['definitions']
     if defi[0].strip("[]").strip("'"):
         new_defi = defi[0].strip("[]").strip("'")
@@ -174,7 +179,8 @@ def best_word(word_list, points):
     if word.lower() in new_defi.lower():
         new_defi = re.sub(r'\b{}\b'.format(re.escape(word)), '___', new_defi, flags=re.IGNORECASE)
 
-    return render_template('exercise.html', defi=new_defi, options=options, correct_word=word, points=points)
+    points = get_user_points(user_id)
+    return render_template('exercise.html', defi=new_defi, options=options, correct_word=word, points=points, num=num, level=level)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

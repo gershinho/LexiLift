@@ -9,6 +9,7 @@ module.exports = {
         'dand': '#FFD369',
         'bone': '#EEEEEE',
         'ddand': '#D5B059',
+        'orange-red': '#FF4500',
         height: {
           '128': '32rem',
         }
