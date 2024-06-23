@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Login</title>
+    <title>LexiLift Login</title>
     <link rel="stylesheet" href="/static/output.css">
-    
-    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class = 'bg-slate-600'>
-    <div class="container">
-        <div class="welcome">
-            Welcome Back!
-        </div>
-        <div class = "excited">
-            We're so excited to see you again!
-        </div>
 
+<body class="bg-blac min-h-screen flex flex-col items-center justify-center">
+    <div class="w-96 p-6 bg-slate-700/20 border border-gray-700 rounded-xl backdrop-blur-md">
+        <div class="text-bone text-4xl font-bold mb-4 text-center">Welcome back to LexiLift!</div>
+        <div class="text-bone text-xl mb-8 text-center">We're so excited to see you again!</div>
 
-        <form action="{{ url_for('login') }}" method="POST">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-            <input type="submit" value="Login">
+        <form action="{{ url_for('login') }}" method="POST" class="flex flex-col space-y-4">
+            <label for="email" class="text-bone text-lg">Email</label>
+            <input type="email" id="email" name="email" required class="p-2 bg-blac border border-gray-700 rounded text-bone">
+
+            <label for="password" class="text-bone text-lg">Password</label>
+            <input type="password" id="password" name="password" required class="p-2 bg-blac border border-gray-700 rounded text-bone">
+
+            <input type="submit" value="Login" class="p-3 bg-dand text-blac rounded-xl mt-4 hover:bg-ddand">
         </form>
-        <div class="links">
-            <a href="#">Forgot your password?</a>
-            <span>|</span>
-            <a href="{{ url_for('register') }}">Register</a>
-            <div>
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        <ul class="flashes">
-                            {% for category, message in messages %}
-                                <li class="{{ category }}">{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %}
-            </div>
-    
-            
+
+        <div class="mt-6 text-center">
+            <a href="#" class="text-bone hover:text-dand">Forgot your password?</a>
+            <span class="text-bone mx-2">|</span>
+            <a href="{{ url_for('register') }}" class="text-bone hover:text-dand">Register</a>
         </div>
-    </body>
-    </html>
+
+        <div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="mt-4 text-red-500">
+                        {% for category, message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</body>
+
+</html>
