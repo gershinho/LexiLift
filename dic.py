@@ -3,15 +3,17 @@ import random
 import string
 import re
 
+
 easy = ['happy', 'friend', 'blue', 'cat', 'sun', 'dog', 'fish', 'ship', 'moon', 'door', 'park', 'song', 'pen', 'hat', 'cake', 'rain', 'smile', 'road', 'bell', 'duck', 'town', 'frog', 'farm', 'shoe', 'juice', 'chair', 'shirt', 'tiger', 'phone', 'plant', 'sleep', 'happy', 'friend', 'blue', 'cat', 'sun', 'dog', 'fish', 'ship', 'moon', 'door', 'park', 'song', 'pen', 'hat', 'cake', 'light', 'box', 'wind', 'bread', 'wall', 'cup', 'note', 'map', 'glue', 'queen', 'robot', 'spoon', 'train', 'whale', 'bat', 'cake', 'cat', 'dog', 'ear', 'fan', 'hat', 'ink', 'rat', 'sun', 'web']
 
 medium = ['ambivalence', 'ephemeral', 'quintessential', 'benevolent', 'meticulous', 'surreptitious', 'vulnerable', 'defenestration', 'gregarious', 'hedonist', 'insidious', 'labyrinthine', 'mellifluous', 'recalcitrant', 'salubrious', 'ubiquitous', 'yearn', 'zealous', 'alacrity', 'cathartic', 'deleterious', 'effervescent', 'facetious', 'gregarious', 'histrionic', 'impetuous', 'jejune', 'kaleidoscope', 'labyrinth', 'nebulous', 'opulent', 'panacea', 'recondite', 'tantamount', 'ubiquitous', 'wanton', 'zenith', 'altruistic', 'benevolent', 'cogent', 'didactic', 'efficacious', 'gregarious', 'juxtapose', 'kowtow', 'magnanimous', 'obfuscate']
 
 hard = ['equanimity', 'ubiquitous', 'cacophony', 'ebullient', 'deleterious', 'antediluvian', 'cynosure', 'diaphanous', 'ebullient', 'garrulous', 'histrionic', 'jejune', 'kaleidoscope', 'labyrinthine', 'mellifluous', 'quiescent', 'recalcitrant', 'salubrious', 'tantamount', 'ululate', 'vexatious', 'winsome', 'aberration', 'cavalcade', 'desultory', 'facetious', 'genuflect', 'hagiography', 'juxtapose', 'kowtow', 'maelstrom', 'obfuscate', 'pastiche', 'ubiquitous', 'yearn', 'zenith', 'abstemious', 'cogent', 'deleterious', 'effervescent', 'gregarious']
-
+# Usage of merriam webster API
 DIC_KEY = 'f41c1a5b-1a8c-481b-9175-6ba7d619643c'
 DIC_URL = 'https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={api_key}'
 
+#Aid of Open AI to filter through data of API 
 def fetch_word_details(word):
     url = DIC_URL.format(word=word, api_key=DIC_KEY)
     try:
@@ -101,6 +103,9 @@ def check_for_errors(words):
             words_with_issues.append(word)
     
     return words_with_issues
+
+
+#Aid of Open AI for cleaning and filtering lists
 
 def clean_list(original_list, words_to_remove):
     cleaned_list = [word for word in original_list if word not in words_to_remove]

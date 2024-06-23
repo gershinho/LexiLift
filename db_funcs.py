@@ -31,7 +31,6 @@ def user_db():
         
         con.commit()
 
-        # Print the database schema for the points table
         
 
 def check_user_exist(email, psw):

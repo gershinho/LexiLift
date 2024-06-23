@@ -103,7 +103,7 @@ def profile():
         correct_count = get_user_correc(user_id)
         level = get_user_lvl(user_id)
         
-        # Determine achievements
+       
         achievements = []
         if correct_count >= 5:
             achievements.append("a-1.png")
@@ -143,7 +143,6 @@ def practice():
         chosen_word = request.form.get('chosen_word')
         correct_word = session.get('correct_word')
 
-        # Fetch the current points, correct count, level, and question number from the database
         points = get_user_points(user_id)
         correct_count = get_user_correc(user_id)
         level = get_user_lvl(user_id)
@@ -158,7 +157,6 @@ def practice():
             correct_count = 0
             result_message = {"message": f"Sorry, the correct answer is '{correct_word}'.", "category": "error"}
 
-        # Update the level and reset question number if the correct count conditions are met
         if level == 'easy' and correct_count >= 10 and points >= 400:
             level = 'medium'
             correct_count = 0
@@ -170,7 +168,6 @@ def practice():
         else:
             num += 1
 
-        # Update points, count, level, and question number in the database
         update_points(user_id, points_change)
         update_count(user_id, correct_count)
         update_level(user_id, level)
