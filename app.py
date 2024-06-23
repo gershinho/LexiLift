@@ -64,7 +64,16 @@ def dashboard():
 
 @app.route("/profile")
 def profile():
-    return render_template('profile.html')
+
+    user_json = session.get('user')
+    if user_json:
+        user = json.loads(user_json)
+        return render_template('profile.html', user=user)
+    else:
+        flash('You must be logged in to view your profile.', 'error')
+        return redirect(url_for('login'))
+
+
 
 @app.route("/practice", methods=['GET', 'POST'])
 def practice():
@@ -98,11 +107,11 @@ def practice():
             result_message = {"message": f"Sorry, the correct answer is '{correct_word}'.", "category": "error"}
 
         # Update the level and reset question number if the correct count conditions are met
-        if level == 'easy' and correct_count >= 7:
+        if level == 'easy' and correct_count >= 10 and points >= 400:
             level = 'medium'
             correct_count = 0
             num = 1
-        elif level == 'medium' and correct_count >= 5:
+        elif level == 'medium' and correct_count >= 7 and points >= 1200:
             level = 'hard'
             correct_count = 0
             num = 1
