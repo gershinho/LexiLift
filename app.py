@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for, flash, ses
 import sqlite3
 import json
 from db_funcs import *
-from dictionary import *
+from dic import *
 import re 
 import random
 
